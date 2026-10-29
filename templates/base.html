@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Portfolio Website{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<header class="top"><a class="brand" href="{{ url_for('index') }}">Portfolio Website</a>
+<nav>{% if session.user_id %}
+{% if session.is_admin %}<a href="{{ url_for('admin') }}">Admin panel</a>{% else %}<a href="{{ url_for('dashboard') }}">My profile</a>{% endif %}
+<a href="{{ url_for('logout') }}">Log out</a>
+{% else %}<a href="{{ url_for('login') }}">Log in</a><a class="btn" href="{{ url_for('register') }}">Create profile</a>{% endif %}</nav></header>
+<main>
+{% for cat, m in get_flashed_messages(with_categories=true) %}<p class="flash {{ cat }}">{{ m }}</p>{% endfor %}
+{% block body %}{% endblock %}
+</main>
+<footer>Mini project by Raju Mishra, Roll No. 137</footer>
+</body></html>

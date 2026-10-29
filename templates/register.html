@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block body %}
+<form class="form narrow" method="post"><h1>Create your profile</h1>
+<label>Full name<input name="name" required></label>
+<label>Username<input name="username" required placeholder="used in your profile link"></label>
+<label>Email<input name="email" type="email" required></label>
+<label>Password<input name="password" type="password" minlength="6" required></label>
+<button class="btn">Create profile</button>
+<p class="muted">Already registered? <a href="{{ url_for('login') }}">Log in</a></p></form>
+{% endblock %}

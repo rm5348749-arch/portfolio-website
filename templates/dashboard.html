@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>My profile</h1>
+<p><a href="{{ url_for('profile', username=u.username) }}">View public page</a> (share: /u/{{ u.username }})</p>
+<form class="form" method="post" action="{{ url_for('update_profile') }}"><h2>About you</h2>
+<label>Full name<input name="name" value="{{ u.name }}" required></label>
+<label>Headline<input name="headline" value="{{ u.headline }}" placeholder="B.Sc. Computer Science student"></label>
+<label>About<textarea name="about" rows="4">{{ u.about }}</textarea></label>
+<label>Phone<input name="phone" value="{{ u.phone }}"></label>
+<button class="btn">Save profile</button></form>
+
+<form class="form" method="post" action="{{ url_for('upload_resume') }}" enctype="multipart/form-data"><h2>Resume</h2>
+<p class="muted">{{ 'A resume is uploaded. Uploading again replaces it.' if u.has_resume else 'No resume yet. PDF, up to 5 MB.' }}</p>
+<input type="file" name="resume" accept="application/pdf" required><button class="btn">Upload resume</button></form>
+
+{% for key, (title, fields) in sections.items() %}
+<section class="form"><h2>{{ title }}</h2>
+<ul class="items">{% for it in data[key] %}<li><div><strong>{{ it.title }}</strong><span>{{ it.detail }}</span></div>
+<form method="post" action="{{ url_for('delete_item', section=key, item_id=it.id) }}"><button class="link-btn">Remove</button></form></li>
+{% else %}<li class="muted">Nothing added yet.</li>{% endfor %}</ul>
+<form method="post" action="{{ url_for('add_item', section=key) }}" class="row">
+{% for col, label in fields %}<input name="{{ col }}" placeholder="{{ label }}" {{ 'required' if loop.first }}>{% endfor %}
+<button class="btn">Add {{ title|lower }}</button></form></section>
+{% endfor %}
+{% endblock %}

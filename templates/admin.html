@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Admin panel</h1>
+<p class="muted">{{ users|length }} registered user(s). Open a profile to remove individual entries.</p>
+<div class="scroll"><table><tr><th>Name</th><th>Username</th><th>Email</th><th>Skills</th><th>Projects</th><th></th></tr>
+{% for u in users %}<tr><td>{{ u.name }}</td><td><a href="{{ url_for('profile', username=u.username) }}">@{{ u.username }}</a></td><td>{{ u.email }}</td><td>{{ u.n_skills }}</td><td>{{ u.n_projects }}</td>
+<td><form method="post" action="{{ url_for('delete_user', uid=u.id) }}" onsubmit="return confirm('Delete this user and all their data?')"><button class="link-btn">Delete user</button></form></td></tr>
+{% else %}<tr><td colspan="6" class="muted">No users yet.</td></tr>{% endfor %}</table></div>
+{% endblock %}

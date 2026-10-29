@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block body %}
+<section class="hero">
+<h1>Everything you've built, on one page you can send.</h1>
+<p>Create a profile with your education, skills, projects, certificates and resume. Share one link with recruiters and colleges.</p>
+<p class="link-pill">yoursite/u/<b>your-username</b></p>
+</section>
+<form class="search" method="get"><input name="q" value="{{ q }}" placeholder="Search by name, headline or username"><button class="btn">Search</button></form>
+<h2>Profiles</h2>
+{% if users %}<div class="grid">{% for u in users %}
+<a class="card" href="{{ url_for('profile', username=u.username) }}"><h3>{{ u.name }}</h3><p>{{ u.headline or 'No headline yet' }}</p><small>@{{ u.username }}</small></a>
+{% endfor %}</div>
+{% else %}<p class="muted">No profiles found. <a href="{{ url_for('register') }}">Create the first one.</a></p>{% endif %}
+{% endblock %}

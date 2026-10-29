@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ u.name }}{% endblock %}
+{% block body %}
+<section class="hero"><h1>{{ u.name }}</h1>
+<p>{{ u.headline }}</p>
+{% if u.about %}<p class="about">{{ u.about }}</p>{% endif %}
+<p>{% if u.phone %}<span class="link-pill">{{ u.phone }}</span>{% endif %}
+{% if u.has_resume %}<a class="btn" href="{{ url_for('resume', username=u.username) }}">Download resume</a>{% endif %}</p></section>
+{% for key, (title, fields) in sections.items() %}
+<section class="block"><h2>{{ title }}</h2>
+<ul class="items">{% for it in data[key] %}<li><div><strong>{{ it.title }}</strong><span>{{ it.detail }}</span></div>
+{% if session.is_admin %}<form method="post" action="{{ url_for('delete_item', section=key, item_id=it.id) }}"><button class="link-btn">Remove</button></form>{% endif %}</li>
+{% else %}<li class="muted">Nothing added yet.</li>{% endfor %}</ul></section>
+{% endfor %}
+{% endblock %}
